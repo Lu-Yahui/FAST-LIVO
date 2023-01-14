@@ -53,6 +53,15 @@ OpenCV>=3.2, Follow [Opencv Installation](http://opencv.org/).
 
  Sophus Installation for the non-templated/double-only version.
 
+ **Before compiling, change the lines listed below**
+ ```cpp
+ // Change Sophus/sophus/so2.cpp:32
+ unit_complex_.real(1.); // unit_complex_.real() = 1.;
+
+ // Change Sophus/sophus/so2.cpp:33
+ unit_complex_.imag(0.); // unit_complex_.imag() = 0.;
+ ```
+
 ```bash
 git clone https://github.com/strasdat/Sophus.git
 cd Sophus
@@ -65,6 +74,21 @@ sudo make install
 ### 2.4 Vikit
 
 Vikit contains camera models, some math and interpolation functions that we need. Vikit is a catkin project, therefore, download it into your catkin workspace source folder.
+
+**Before compiling, change the lines listed below, if a new opencv version used**
+```cpp
+// vikit_common/src/homography.cpp:48
+cv::Mat cvH = cv::findHomography(src_pts, dst_pts, cv::RANSAC, 2./error_multiplier2);
+
+// vikit_common/src/img_align.cpp:237
+cv::namedWindow("residuals", cv::WINDOW_AUTOSIZE);
+
+// vikit_common/src/img_align.cpp:437
+cv::namedWindow("residuals", cv::WINDOW_AUTOSIZE);
+
+// vikit_common/src/pinhole_camera.cpp:112
+cv::remap(raw, rectified, undist_map1_, undist_map2_, cv::INTER_LINEAR);
+```
 
 ```bash
 cd catkin_ws/src
